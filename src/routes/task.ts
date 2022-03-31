@@ -66,12 +66,35 @@ router.put("/updatetask", (req: Request, res: Response) => {
                         return res.status(500).json({ "error": "Could not WRITE the file" })
                     }
                 })
-                return res.status(200).json({ "message": "Task updated"})
+                return res.status(200).json({ "message": "Task updated" })
             }
         }
     })
 })
 
+router.delete("/deletetask", (req: Request, res: Response) => {
+    const { name } = req.query;
 
+    fs.readFile("./src/tasks.json", "utf8", (err, buffer) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: "Could not READ the file" });
+        }
+
+        const data = JSON.parse(buffer)
+        for (let i = 0; i < data.tasks.length; i++) {
+            if (data.tasks[i].taskName == name) {
+                data.tasks.splice(i, 1)
+                fs.writeFile("./src/tasks.json", JSON.stringify(data, null, 2), err => {
+                    if (err) {
+                        console.log(err)
+                        return res.status(500).json({ "error": "Could not WRITE the file" })
+                    }
+                })
+                return res.status(200).json({ "message": "Task deleted" })
+            }
+        }
+    })
+})
 
 module.exports = router;
