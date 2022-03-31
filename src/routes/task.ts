@@ -72,6 +72,7 @@ router.put("/updatetask", (req: Request, res: Response) => {
     })
 })
 
+// Delete task
 router.delete("/deletetask", (req: Request, res: Response) => {
     const { name } = req.query;
 
