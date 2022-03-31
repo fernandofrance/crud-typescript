@@ -21,7 +21,7 @@ router.get("/tasklist", (req: Request, res: Response) => {
 });
 
 // Post task
-router.post("/tasklist", (req: Request, res: Response) => {
+router.post("/addtask", (req: Request, res: Response) => {
     const body = req.body;
     fs.readFile("./src/tasks.json", "utf8", (err, buffer) => {
         if (err) {
