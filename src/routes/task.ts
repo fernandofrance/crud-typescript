@@ -45,8 +45,8 @@ router.post("/addtask", (req: Request, res: Response) => {
 
 // Update task
 router.put("/updatetask", (req: Request, res: Response) => {
-    const { identifier } = req.query;
-    const { taskName, taskDesc } = req.body;
+    const { name } = req.query;
+    const { taskName, taskDescription } = req.body;
     
     fs.readFile("./src/tasks.json", "utf8", (err, buffer) => {
         if (err) {
@@ -57,10 +57,9 @@ router.put("/updatetask", (req: Request, res: Response) => {
         const data = JSON.parse(buffer)
         
         for (let i = 0; i < data.tasks.length; i++) {
-            //console.log(data.tasks[i].taskName)
-            if (data.tasks[i].taskName == identifier) {
+            if (data.tasks[i].taskName == name) {
                 data.tasks[i].taskName = taskName
-                data.tasks[i].taskDesc = taskDesc
+                data.tasks[i].taskDescription = taskDescription
                 fs.writeFile("./src/tasks.json", JSON.stringify(data, null, 2), err => {
                     if (err) {
                         console.log(err)
@@ -72,5 +71,7 @@ router.put("/updatetask", (req: Request, res: Response) => {
         }
     })
 })
+
+
 
 module.exports = router;
